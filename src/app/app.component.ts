@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './_services/account.service';
 import { User } from './_models/user';
@@ -10,23 +9,15 @@ import { User } from './_models/user';
 })
 export class AppComponent implements OnInit {
   title = 'Dating App';
-  users: any;
 
   constructor(
-    private client: HttpClient,
     private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
-    this.getUsers();
     this.setCurrentUser();
   }
 
-  getUsers() {
-    this.client
-      .get('http://localhost:5000/api/user')
-      .subscribe((next) => (this.users = next));
-  }
 
   //kullanıcı browseri açtığında/yani bizim app'i; localStorage'de varsa mevcut credentials'i alsın ve account servisimizdeki
   //user info tutan behaviorSubjectimize işlesin.
