@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -11,14 +12,20 @@ export class RegisterComponent {
 
   model: any = {};
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private toastr: ToastrService
+  ) {}
 
   register() {
     this.accountService.register(this.model).subscribe({
       next: () => {
         this.cancel();
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        this.toastr.error(err.error, 'Bir Hata Oluştu');
+        console.log(err);
+      },
       complete: () => console.log('register done'),
     });
   }

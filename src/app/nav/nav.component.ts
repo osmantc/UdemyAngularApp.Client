@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { User } from '../_models/user';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +14,11 @@ export class NavComponent implements OnInit {
   model: any = {};
   // loggedIn: boolean = false;
 
-  constructor(public accountService: AccountService) {}
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     // this.getCurrentUser();
@@ -33,11 +39,12 @@ export class NavComponent implements OnInit {
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: (response) => {
-        console.log(response);
-        // this.loggedIn = true;
+      next: () => {
+        this.router.navigateByUrl('/members');
+        // this.loggedIn = true; //async pipeden dolayı bu mantık iptal oldu.
       },
       error: (error) => {
+        this.toast.error(error.error, 'Bir Hata Oluştu');
         console.log(error);
       },
     });
@@ -45,6 +52,7 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
     // this.loggedIn = false;
   }
 }
