@@ -50,4 +50,8 @@ export class AccountService {
         })
       );
   }
+
+  callServerError(): Observable<any> {
+    return this.http.get<String>(this.baseUrl + 'buggy/server-error');
+  }
 }

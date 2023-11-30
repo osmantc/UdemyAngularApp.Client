@@ -42,11 +42,12 @@ export class NavComponent implements OnInit {
       next: () => {
         this.router.navigateByUrl('/members');
         // this.loggedIn = true; //async pipeden dolayı bu mantık iptal oldu.
-      },
-      error: (error) => {
-        this.toast.error(error.error, 'Bir Hata Oluştu');
-        console.log(error);
-      },
+      }
+      // , //FIXME: fixed; artık central error logic (interceptor kullandığımızdan ayrı ayrı error handlinge gerek yok)
+      // error: (error) => {
+      //   this.toast.error(error.error, 'Bir Hata Oluştu');
+      //   console.log(error);
+      // },
     });
   }
 
